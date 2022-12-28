@@ -1,0 +1,25 @@
+{
+    "employee": [
+        {
+            "name": "Adam",
+            "address": "London",
+            "email": "adam@gmail.com",
+            "contact": "8367367",
+            "id": 1
+        },
+        {
+            "name": "Tommy",
+            "address": "Japan",
+            "email": "tom@gmail.com",
+            "contact": "8367367",
+            "id": 2
+        },
+        {
+            "name": "Jane",
+            "address": "Australia",
+            "email": "Jane@gmail.com",
+            "contact": "8367367",
+            "id": 3
+        }
+    ]
+}
