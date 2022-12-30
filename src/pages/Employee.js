@@ -6,6 +6,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import Create from "../partials/modals/Create";
 import Detail from "../partials/modals/Detail";
 import Update from "../partials/modals/Update";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUsers } from "../features/Users";
 
 const useStyles = makeStyles({
   grid: {
@@ -14,6 +16,16 @@ const useStyles = makeStyles({
 });
 
 const Employee = () => {
+  const users = useSelector((state) => state.userList.users);
+  console.log(users)
+  const loading = useSelector((state) => state.userList.loading);
+  const error = useSelector((state) => state.userList.error);
+  const dispatch = useDispatch();
+
+  const [createState, setCreateState] = useState(false);
+  const [detailState, setDetailState] = useState(false);
+  const [updateState, setUpdateState] = useState(false);
+
   const classes = useStyles();
 
   const columns = [
@@ -73,17 +85,17 @@ const Employee = () => {
     },
   ];
 
-  const [data, setData] = useState([]);
-  const [createState, setCreateState] = useState(false);
-  const [detailState, setDetailState] = useState(false);
-  const [updateState, setUpdateState] = useState(false);
-
   useEffect(() => {
-    fetch("http://localhost:5000/employee")
-      .then((res) => res.json())
-      .then((res) => setData(res))
-      .catch((err) => console.log(err.message));
-  }, []);
+    dispatch(fetchUsers())
+  }, [dispatch]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   return (
     <Box sx={{ height: 400, width: "100%" }}>
@@ -106,7 +118,7 @@ const Employee = () => {
 
       <DataGrid
         className={classes.grid}
-        rows={data}
+        rows={users}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
